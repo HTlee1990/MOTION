@@ -1,0 +1,27 @@
+@import '../common/common.scss';
+
+.header__container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  background: $bg-accent-color;
+  height: 20%;
+  font-size: 3rem;
+  font-weight: 600;
+  color: $accent-color;
+
+  .button__container {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+
+    button {
+      width: 7rem;
+      height: 3rem;
+      border: none;
+      background-color: $accent-color;
+      color: $smokywhite;
+    }
+  }
+}
