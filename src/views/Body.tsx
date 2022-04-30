@@ -1,11 +1,13 @@
 import Header from '../components/Header';
 import './Body.css';
-type Props = {};
+type Props = {
+  onClick: () => void;
+};
 
-export default function Body({}: Props) {
+export default function Body({ onClick }: Props) {
   return (
     <div className="body__view">
-      <Header />
+      <Header onClick={onClick} />
     </div>
   );
 }
