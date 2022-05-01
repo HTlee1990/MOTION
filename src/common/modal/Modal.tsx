@@ -1,16 +1,12 @@
 import './Modal.scss';
 import Button from '../Button';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 type Props = {
-  children?: any;
-  onClick?: () => void;
+  onClick: () => void;
 };
 
-function ModalBackground({ children }: Props) {
-  return <div className="modal__background">{children}</div>;
-}
-
 function Modal({ onClick }: Props) {
+  const modalRef = useRef<HTMLDivElement>(null);
   const [title, setTitle] = useState('');
   const [url, setUrl] = useState('');
 
@@ -21,11 +17,13 @@ function Modal({ onClick }: Props) {
   };
   const test = (e: any) => {
     e.preventDefault();
-    console.log(e);
+    if (e.target === modalRef.current) {
+      onClick();
+    }
   };
 
   return (
-    <ModalBackground>
+    <div className="modal__background" ref={modalRef} onClick={test}>
       <form className="form__wrapper" autoComplete="off">
         <button className="close__btn" onClick={onClick}>
           &#215;
@@ -38,11 +36,11 @@ function Modal({ onClick }: Props) {
           <label htmlFor="URL">URL</label>
           <input type="text" id="URL" value={url} onChange={handleInput} />
         </div>
-        <Button className="add__btn" id="hoho" onClick={test}>
+        <Button className="add__btn" id="hoho">
           ADD
         </Button>
       </form>
-    </ModalBackground>
+    </div>
   );
 }
 

@@ -1,5 +1,4 @@
 import './App.css';
-import Header from './components/Header';
 import Body from './views/Body';
 import Modal from './common/modal/Modal';
 import { useState } from 'react';
@@ -7,6 +6,7 @@ import { useState } from 'react';
 function App() {
   const [modalShow, setModalShow] = useState(true);
   const handleModal = () => {
+    console.log('clicked');
     setModalShow((prev) => !prev);
   };
   return (
