@@ -1,13 +1,16 @@
+import ReactDOM from 'react-dom';
 import './Modal.scss';
 import Button from '../Button';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 type Props = {
+  addCard: (context: any) => void;
   onClick: (e?: any) => void;
-  needUrl: boolean;
+  target: string;
 };
 
-function Modal({ onClick, needUrl }: Props) {
+function Modal({ onClick, addCard, target }: Props) {
   const modalRef = useRef<HTMLDivElement>(null);
+  const [category, setCategory] = useState(target);
   const [title, setTitle] = useState('');
   const [url, setUrl] = useState('');
   const [body, setBody] = useState('');
@@ -27,40 +30,52 @@ function Modal({ onClick, needUrl }: Props) {
   };
   const submitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    console.log('clicked!');
+    const context = { category, title, url, body };
+    addCard(context);
   };
 
   return (
-    <div className="modal__background" ref={modalRef} onClick={closeModal}>
-      <form
-        className="form__wrapper"
-        autoComplete="off"
-        onClick={submitHandler}
-      >
-        <button className="close__btn" onClick={onClick}>
-          &#215;
-        </button>
-        <div className="input__wrapper">
-          <label htmlFor="Title">Title</label>
-          <input type="text" id="Title" value={title} onChange={handleInput} />
-        </div>
+    <>
+      {ReactDOM.createPortal(
+        <div className="modal__background" ref={modalRef} onClick={closeModal}>
+          <form className="form__wrapper" autoComplete="off">
+            <button className="close__btn" onClick={onClick}>
+              &#215;
+            </button>
+            <div className="input__wrapper">
+              <label htmlFor="Title">Title</label>
+              <input
+                type="text"
+                id="Title"
+                value={title}
+                onChange={handleInput}
+              />
+            </div>
 
-        {needUrl ? (
-          <div className="input__wrapper">
-            <label htmlFor="URL">URL</label>
-            <input type="text" id="URL" value={url} onChange={handleInput} />
-          </div>
-        ) : (
-          <div className="input__wrapper">
-            <label htmlFor="body">BODY</label>
-            <textarea id="body" value={body} onChange={handleTextArea} />
-          </div>
-        )}
-        <Button className="add__btn" id="hoho">
-          ADD
-        </Button>
-      </form>
-    </div>
+            {target === 'Video' || target === 'Image' ? (
+              <div className="input__wrapper">
+                <label htmlFor="URL">URL</label>
+                <input
+                  type="text"
+                  id="URL"
+                  value={url}
+                  onChange={handleInput}
+                />
+              </div>
+            ) : (
+              <div className="input__wrapper">
+                <label htmlFor="body">BODY</label>
+                <textarea id="body" value={body} onChange={handleTextArea} />
+              </div>
+            )}
+            <Button className="add__btn" id="hoho" onClick={submitHandler}>
+              ADD
+            </Button>
+          </form>
+        </div>,
+        document.getElementById('overlay')!
+      )}
+    </>
   );
 }
 

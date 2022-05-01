@@ -10,17 +10,17 @@ export default function Header({ onClick }: Props) {
     <div className="header__container">
       MOTION
       <div className="button__container">
-        <Button id="image" onClick={onClick}>
+        <Button id="Image" onClick={onClick}>
           IMAGE
         </Button>
-        <Button id="video" onClick={onClick}>
+        <Button id="Video" onClick={onClick}>
           VIDEO
         </Button>
-        <Button id="note" onClick={onClick}>
+        <Button id="Note" onClick={onClick}>
           NOTE
         </Button>
-        <Button id="task" onClick={onClick}>
-          TASK
+        <Button id="Todo" onClick={onClick}>
+          Todo
         </Button>
       </div>
     </div>
