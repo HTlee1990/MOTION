@@ -1,5 +1,5 @@
 import './Header.scss';
-import Button from '../common/Button';
+import Button from '../../common/Button';
 
 type Props = {
   onClick?: (e?: any) => void;
