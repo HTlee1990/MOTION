@@ -1,32 +1,39 @@
 import Header from '../components/header/Header';
 import Card from '../components/card/Cards';
-import Modal from '../common/modal/Modal';
 import './Body.scss';
 import { useState } from 'react';
-import { type } from '@testing-library/user-event/dist/type';
+import NewItem from '../components/newItem/NewItem';
+import EditItem from '../components/editItem/EditItem';
 
 type Props = {};
 type Context = {
   category: 'Video' | 'Image' | 'Todo' | 'Note';
   title: string;
-  url: string;
-  body: string;
+  src?: string;
+  body?: string;
 };
+
 type Data = { title: string; src?: string; body?: string };
 
 export default function Body({}: Props) {
   const [modalShow, setModalShow] = useState(false);
-  const [target, setTarget] = useState('');
+  const [editModalShow, setEditModalShow] = useState(false);
+  const [cardCategory, setCardCategory] = useState('');
+  const [editItem, setEditItem] = useState({
+    category: 'Video',
+    title: '',
+    idx: 0,
+  });
+
   const handleModal = (e?: any) => {
     if (e) {
-      setTarget(e.target.id);
+      setCardCategory(e.target.id);
     }
     setModalShow((prev) => !prev);
   };
 
   const [datas, setDatas] = useState([
-    { category: 'Image', title: 'Image', src: 'https://picsum.photos/600/300' },
-    { category: 'Image', title: 'Image', src: 'https://picsum.photos/600/300' },
+    { category: 'Image', title: 'Image', src: 'https://picsum.photos/560/300' },
     {
       category: 'Video',
       title: 'Video',
@@ -45,10 +52,10 @@ export default function Body({}: Props) {
   ]);
 
   const addCard = (context: Context) => {
-    const { category, title, url, body } = context;
+    const { category, title, src, body } = context;
     let item: any;
     if (category === 'Image' || category === 'Video') {
-      item = { category, title, src: url };
+      item = { category, title, src };
     } else {
       item = { category, title, body };
     }
@@ -56,21 +63,64 @@ export default function Body({}: Props) {
     setModalShow(false);
   };
 
-  const removeCard = (idx: number) => {
+  const removeCard = (e: any, idx: number) => {
+    e.stopPropagation();
     let newDatas = [...datas];
     newDatas.splice(idx, 1);
+    setDatas(newDatas);
+  };
+
+  const editModalHandler = () => {
+    setEditModalShow(!editModalShow);
+  };
+
+  const cardClickHandler = (idx: number) => {
+    const item = datas[idx];
+    setEditItem({ ...item, idx });
+    editModalHandler();
+  };
+
+  const editCardHandler = (context: Context, idx: number) => {
+    const { category, title, src, body } = context;
+    let item: any;
+    if (category === 'Image' || category === 'Video') {
+      item = { category, title, src };
+    } else {
+      item = { category, title, body };
+    }
+    const newDatas = [...datas];
+    newDatas[idx] = item;
+
     setDatas(newDatas);
   };
 
   return (
     <div className="body__view">
       {modalShow && (
-        <Modal onClick={handleModal} addCard={addCard} target={target} />
+        <NewItem
+          closeHandler={handleModal}
+          addCard={addCard}
+          cardCategory={cardCategory}
+        />
+      )}
+      {editModalShow && (
+        <EditItem
+          closeHandler={editModalHandler}
+          item={editItem}
+          editCardHandler={editCardHandler}
+        />
       )}
       <Header onClick={handleModal} />
       {datas.map((item, idx) => {
-        console.log('why???', item);
-        return <Card key={idx} idx={idx} item={item} removeCard={removeCard} />;
+        return (
+          <Card
+            key={idx}
+            idx={idx}
+            item={item}
+            removeCard={removeCard}
+            onClick={cardClickHandler}
+          />
+        );
       })}
     </div>
   );

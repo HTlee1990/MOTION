@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 import './Cards.scss';
 
 type Props = {
-  removeCard: (idx: number) => void;
+  onClick: (idx: number) => void;
+  removeCard: (e: any, idx: number) => void;
   idx: number;
   item: {
     // title: 'Image' | 'Video' | 'Note' | 'Todo';
@@ -13,28 +14,28 @@ type Props = {
   };
 };
 
-export default function card({ item, removeCard, idx }: Props) {
+export default function card({ item, removeCard, idx, onClick }: Props) {
   return (
-    <div>
+    <div onClick={() => onClick(idx)}>
       {item.category === 'Image' && (
         <div className="card__wrapper">
           <img src={item.src} />
           <span>{item.title}</span>
-          <button onClick={() => removeCard(idx)}>&#215;</button>
+          <button onClick={(e) => removeCard(e, idx)}>&#215;</button>
         </div>
       )}
       {item.category === 'Note' && (
         <div className="text__card__wrapper">
           <span>{item.title}</span>
           <span>{item.body}</span>
-          <button onClick={() => removeCard(idx)}>&#215;</button>
+          <button onClick={(e) => removeCard(e, idx)}>&#215;</button>
         </div>
       )}
       {item.category === 'Todo' && (
         <div className="text__card__wrapper">
           <span>{item.title}</span>
           <span>{item.body}</span>
-          <button onClick={() => removeCard(idx)}>&#215;</button>
+          <button onClick={(e) => removeCard(e, idx)}>&#215;</button>
         </div>
       )}
       {item.category === 'Video' && (
@@ -47,7 +48,7 @@ export default function card({ item, removeCard, idx }: Props) {
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           ></iframe>
           <span>{item.title}</span>
-          <button onClick={() => removeCard(idx)}>&#215;</button>
+          <button onClick={(e) => removeCard(e, idx)}>&#215;</button>
         </div>
       )}
     </div>
