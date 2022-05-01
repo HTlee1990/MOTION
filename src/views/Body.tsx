@@ -52,13 +52,14 @@ export default function Body({}: Props) {
     } else {
       item = { category, title, body };
     }
-    console.log(item);
     setDatas([...datas, item]);
     setModalShow(false);
   };
 
   const removeCard = (idx: number) => {
-    console.log('clicked!!!', idx);
+    let newDatas = [...datas];
+    newDatas.splice(idx, 1);
+    setDatas(newDatas);
   };
 
   return (
