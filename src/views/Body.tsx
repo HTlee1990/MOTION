@@ -1,7 +1,7 @@
 import Header from '../components/Header';
 import './Body.css';
 type Props = {
-  onClick: () => void;
+  onClick?: (e?: any) => void;
 };
 
 export default function Body({ onClick }: Props) {

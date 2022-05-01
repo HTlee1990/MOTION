@@ -2,7 +2,7 @@ import './Header.scss';
 import Button from '../common/Button';
 
 type Props = {
-  onClick: () => void;
+  onClick?: (e?: any) => void;
 };
 
 export default function Header({ onClick }: Props) {
@@ -10,10 +10,18 @@ export default function Header({ onClick }: Props) {
     <div className="header__container">
       MOTION
       <div className="button__container">
-        <Button onClick={onClick}>IMAGE</Button>
-        <Button onClick={onClick}>VIDEO</Button>
-        <Button onClick={onClick}>NOTE</Button>
-        <Button onClick={onClick}>TASK</Button>
+        <Button id="image" onClick={onClick}>
+          IMAGE
+        </Button>
+        <Button id="video" onClick={onClick}>
+          VIDEO
+        </Button>
+        <Button id="note" onClick={onClick}>
+          NOTE
+        </Button>
+        <Button id="task" onClick={onClick}>
+          TASK
+        </Button>
       </div>
     </div>
   );

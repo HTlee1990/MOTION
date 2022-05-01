@@ -39,6 +39,12 @@
       input {
         height: 1.5rem;
         background-color: $text-edit-bg-color;
+        color: white;
+      }
+
+      textarea {
+        background-color: $text-edit-bg-color;
+        color: white;
       }
     }
 
