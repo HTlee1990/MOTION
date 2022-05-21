@@ -119,8 +119,9 @@ const Body: React.FC = () => {
     e: React.DragEvent<HTMLDivElement>,
     idx: number
   ) => {
+    const target = e.target as HTMLDivElement;
+    target.classList.add('lifted');
     setDraggingItem(idx);
-    console.log('drag is started!', idx);
   };
   const dragHandler = (e: React.DragEvent<HTMLDivElement>) => {
     // console.log('it is being dragging');
@@ -131,7 +132,6 @@ const Body: React.FC = () => {
   ) => {
     e.preventDefault();
     setDroppableIem(idx);
-    console.log('drag entered!', idx);
   };
   const dragLeaveHandler = (
     e: React.DragEvent<HTMLDivElement>,
@@ -139,15 +139,15 @@ const Body: React.FC = () => {
   ) => {
     e.preventDefault();
     if (idx === droppableItem) {
-      console.log('it is in outside ', e.target);
       setDroppableIem(undefined);
     }
   };
   const dragEndHandler = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
+    const target = e.target as HTMLDivElement;
+    target.classList.remove('lifted');
     if (draggingItem === droppableItem) return;
     //dragging 하는 아이템과 떨어뜨릴 곳의 아이템이 다르다면, 위치를 변경한다.
-    console.log(draggingItem, droppableItem);
 
     setDatas((prevData) => {
       const newDatas = [...prevData];
@@ -155,7 +155,6 @@ const Body: React.FC = () => {
         [newDatas[droppableItem! as number], newDatas[draggingItem! as number]];
       return newDatas;
     });
-    console.log('dragging event ends', draggingItem, droppableItem);
   };
 
   return (
