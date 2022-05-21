@@ -1,16 +1,11 @@
 import { useState } from 'react';
 import Modal from '../../common/modal/Modal';
 import Button from '../../common/Button';
+import { MediaContext, TextContext } from '../../common/type';
 
-type Item = {
-  category: 'Video' | 'Image' | 'Todo' | 'Note';
-  title: string;
-  src?: string;
-  body?: string;
-};
 type Props = {
   closeHandler: () => void;
-  editCardHandler: (context: Item, idx: number) => void;
+  editCardHandler: (context: MediaContext | TextContext, idx: number) => void;
   item: any;
 };
 
@@ -53,7 +48,7 @@ const EditItem = ({ closeHandler, editCardHandler, item }: Props) => {
           </div>
         )}
         <Button className="add__btn" id="hoho" onClick={submitHandler}>
-          ADD
+          EDIT
         </Button>
       </form>
     </Modal>
